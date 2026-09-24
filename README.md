@@ -2,13 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Статическая страница подписки для панели [Marzban](https://github.com/Gozargah/Marzban): отображение конфигов, QR-кодов и ссылок для клиентов.
+Страница подписки для панели [Marzban](https://github.com/Gozargah/Marzban): Jinja2-шаблон с отображением конфигов, QR-кодов и статуса подписки, который рендерит сама панель.
 
 ## Особенности
 
-- Одностраничный `index.html` без сборки
+- Один файл `index.html`, без сборки
+- Jinja2-переменные (`{{ user.username }}`, `{{ user.expire }}`, `{{ user.data_limit }}` и другие) заполняются бэкендом Marzban при рендере страницы
 - Тёмная тема, QR-коды, анимация фона
-- Подходит для размещения за reverse proxy (nginx/Caddy)
 
 ## Быстрый старт
 
@@ -19,19 +19,24 @@
    cd marzban-subpage
    ```
 
-2. Разместите файлы на веб-сервере (корень сайта или подкаталог).
+2. Скопируйте `index.html` в каталог шаблонов Marzban (например, `subscription/index.html` внутри `CUSTOM_TEMPLATES_DIRECTORY`) и укажите его в `.env` панели:
 
-3. Настройте Marzban и URL подписки по [документации Marzban](https://github.com/Gozargah/Marzban).
+   ```dotenv
+   CUSTOM_TEMPLATES_DIRECTORY=/var/lib/marzban/templates/
+   SUBSCRIPTION_PAGE_TEMPLATE=subscription/index.html
+   ```
+
+3. Перезапустите Marzban — страница подписки начнёт рендериться из этого шаблона.
 
 ## Структура
 
 | Путь | Назначение |
 |------|------------|
-| `index.html` | Страница подписки |
+| `index.html` | Шаблон страницы подписки |
 
 ## Документация
 
-Подробная настройка панели — в репозитории и вики Marzban (см. ссылку выше).
+Настройка кастомного шаблона подписки — в [документации Marzban](https://gozargah.github.io/marzban/).
 
 ## Лицензия
 
